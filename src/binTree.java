@@ -45,7 +45,7 @@ public class binTree {
 		
 		if (pars.size() == expArr.size()) {
 			expArr = expArr.subList(1, expArr.size() - 1);
-			pars.clear();
+			pars = findParen(expArr);
 		}
 		
 		for (int i = expArr.size() - 1; i > -1; i--) {
@@ -78,17 +78,22 @@ public class binTree {
 	
 	private static List<Integer> findParen(List<String> exp) {
 		
-		List<Integer> pars = new ArrayList<Integer>();
+		List<Integer> pars = new ArrayList<>();
 		
 		boolean inPars = false;
+		int parenCount = 0;
 		
 		for (int i = 0; i < exp.size(); i++) {
 			if (exp.get(i).equals("(")) {
+				parenCount++;
 				inPars = true;
 				pars.add(i);
 			} else if (exp.get(i).equals(")")) {
+				parenCount--;
 				pars.add(i);
-				inPars = !inPars;
+				if (parenCount == 0) {
+					inPars = false;
+				}
 			} else if (inPars) {
 				pars.add(i);
 			} 
@@ -141,7 +146,7 @@ public class binTree {
 	
 	private static List<String> createList(String expression) {
 
-		List<String> expArr = new ArrayList<String>();
+		List<String> expArr = new ArrayList<>();
 
 		String[] temp = expression.split("");
 
@@ -165,7 +170,15 @@ public class binTree {
 				}
 			} else if (!isDigit(elem)) {
 				if (elem.equals("(") || elem.equals(")")) {
-					addPar = elem;
+					if (nonDigit != "") {
+						expArr.add(nonDigit);
+						nonDigit = "";
+					}
+					if (addPar != "") {
+						expArr.add(addPar);
+						addPar = "";
+					}
+					addPar += elem;
 				} else {
 					nonDigit += elem;
 					if (digit != "") {
