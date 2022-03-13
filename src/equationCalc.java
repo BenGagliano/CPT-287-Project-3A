@@ -11,16 +11,20 @@ public class equationCalc {
 		
 		while (fScan.hasNext()) { //loops through each line of the .txt file
 			infixEquation = (fScan.nextLine().replaceAll(" ", ""));
-			Stack stringStack =	equationParser();
-			
-			if (!stringStack.isEmpty()) {
-	            int x = eval(stringStack);
-	            if (x != Integer.MAX_VALUE) {
-	            	System.out.println(x);
-	            }
-	            System.out.println();
-	        }
-		} 
+			binTree equationTree = new binTree(infixEquation);
+			binTree.printBT(equationTree, 1);//prints the equation for clarity
+			try {
+				int x = eval.traverseTree(binTree.getTree(infixEquation));
+				if (x != Integer.MAX_VALUE) {
+					System.out.println(x);
+				}
+				System.out.println();
+			}
+			catch (ArithmeticException e){//only runs if traverseTree throws ArithmeticException
+				System.out.println(e.getMessage());
+			}
+	  
+		}//end scan loop
 		fScan.close();
 
 	} // end main
