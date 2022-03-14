@@ -170,6 +170,10 @@ public class binTree {
 				}
 			} else if (!isDigit(elem)) {
 				if (elem.equals("(") || elem.equals(")")) {
+					if (digit != "") {
+						expArr.add(digit);
+						digit = "";
+					}
 					if (nonDigit != "") {
 						expArr.add(nonDigit);
 						nonDigit = "";
